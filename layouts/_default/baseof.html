@@ -44,6 +44,11 @@
     <meta name="theme-color" content="#3b82f6">
     <meta name="color-scheme" content="light dark">
 
+    <!-- Vercel Analytics 标识 -->
+    {{ if hugo.IsProduction }}
+    <meta name="vercel-analytics" content="enabled">
+    {{ end }}
+
     <!-- 社交媒体Meta标签 -->
     {{ partial "social-meta.html" . }}
 
@@ -215,5 +220,11 @@
     <!-- Alpine.js via Hugo Pipes -->
     {{ $js := resources.Get "js/main.js" | js.Build (dict "target" "es2018" "minify" true) | resources.Fingerprint }}
     <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+
+    <!-- Vercel Analytics - 只在生产环境加载 -->
+    {{ if hugo.IsProduction }}
+    {{ $analytics := resources.Get "js/analytics.js" | js.Build (dict "target" "es2018" "minify" true) | resources.Fingerprint }}
+    <script defer src="{{ $analytics.RelPermalink }}" integrity="{{ $analytics.Data.Integrity }}"></script>
+    {{ end }}
 </body>
 </html>
