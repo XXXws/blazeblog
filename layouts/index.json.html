@@ -1,3 +1,8 @@
+{{/*
+  Hugo模板文件 - 生成搜索索引JSON
+  此文件使用Hugo模板语法生成JSON格式的搜索数据
+  生成的文件位于: public/index.json
+*/}}
 {{- $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections -}}
 {{- $searchData := slice -}}
 {{- range $pages -}}

@@ -1,12 +1,3 @@
-// {{RIPER-5:
-// Action: Modified | Task: Vercel Analytics优化 | Time: 2025-07-13T21:30:00+08:00
-// Reason: 采用Vercel官方推荐的inject()方法，简化实现
-// Principle: 官方最佳实践 - 使用官方SDK的inject函数
-// Architecture_Note: [AR] 遵循Vercel官方文档推荐方案
-// Memory_Reference: [mcp.memory] 应用Vercel Analytics官方最佳实践
-// Quality_Check: [LD] 使用官方inject()方法，更稳定可靠
-// }}
-
 // Vercel Analytics 官方推荐实现
 // 使用 @vercel/analytics 的 inject() 方法
 import { inject } from '@vercel/analytics';

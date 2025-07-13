@@ -1,13 +1,3 @@
-{{/* RIPER-5:
-     Action: Created
-     Task: #9c4e084a-a756-4df2-9ccd-dc6f08926e36 | Time: 2025-07-13T13:45:00+08:00
-     Reason: 创建图片shortcode，便于在内容中使用响应式图片
-     Principle: 易用性原则 - 简化内容创建者的图片使用流程
-     Architecture_Note: [AR] 图片shortcode组件，集成响应式图片功能
-     Memory_Reference: [mcp.memory] 应用Hugo shortcode最佳实践
-     Quality_Check: [LD] 完整的shortcode实现，支持多种参数和配置
-*/}}
-
 <!-- 图片shortcode - 支持响应式图片和现代格式 -->
 {{ $src := .Get "src" | default (.Get 0) }}
 {{ $alt := .Get "alt" | default (.Get 1) | default "" }}

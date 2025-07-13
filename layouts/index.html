@@ -70,9 +70,10 @@
           <div class="flex flex-wrap gap-2">
             {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
             {{ $count := len $taxonomy }}
+            {{ $fontSize := add 0.75 (mul 0.25 (math.Log $count)) }}
             <a href="{{ "/tags/" | relLangURL }}{{ $name | urlize }}"
                class="tag hover:bg-primary-100 dark:hover:bg-primary-900/30 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
-               style="font-size: {{ add 0.75 (mul 0.25 (math.Log $count)) }}rem;">
+               style="--tag-font-size: {{ $fontSize }}rem; font-size: var(--tag-font-size);">
               #{{ $name }}
               <span class="ml-1 text-xs opacity-75">({{ $count }})</span>
             </a>

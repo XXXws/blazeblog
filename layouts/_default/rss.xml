@@ -1,13 +1,3 @@
-{{/* RIPER-5:
-     Action: Created
-     Task: #195b5285-80cd-41ed-96a8-ed0f076ea9ec | Time: 2025-07-13T13:06:00+08:00
-     Reason: 创建自定义RSS模板，优化RSS订阅源格式和内容
-     Principle: 内容分发最佳实践 - 完整的RSS格式提升订阅体验
-     Architecture_Note: [AR] 自定义RSS模板，包含完整文章信息和媒体支持
-     Memory_Reference: [mcp.memory] 应用RSS 2.0规范最佳实践
-     Quality_Check: [LD] 完整的RSS实现，符合RSS 2.0规范
-*/}}
-
 {{- $pctx := . -}}
 {{- if .IsHome -}}{{ $pctx = .Site }}{{- end -}}
 {{- $pages := slice -}}

@@ -1,7 +1,5 @@
 # BlazeBlog
 
-<!-- {{RIPER-5: Action: Modified | Task: #5c7c16e9-f7ed-4de3-84a9-9df6ebd305be | Time: 2025-07-13T14:25:00+08:00 | Reason: Hugo版本配置统一 - 更新Hugo版本要求从0.120.0到0.147.9 | Principle: 版本一致性原则 - 确保文档与实际使用版本一致 | Architecture_Note: [AR] 保持JAMstack架构不变，仅更新版本配置 | Memory_Reference: [mcp.memory] 应用版本管理最佳实践 | Quality_Check: [LD] Hugo版本配置已统一，确保部署环境一致性}} -->
-
 现代化技术博客平台 - 基于JAMstack架构
 
 ## 🚀 特性
@@ -15,8 +13,6 @@
 - 🚀 **SEO优化** - 完整的SEO支持
 
 ## 📊 项目状态 (2025-07-13)
-
-<!-- {{RIPER-5: Action: Modified | Task: #BlazeBlog-Cleanup-2025-07-13 | Time: 2025-07-13T21:30:00+08:00 | Reason: 项目文档状态统一 - 修复README.md与development-guide.md状态矛盾 | Principle: 文档一致性原则 - 确保项目状态描述准确反映实际完成情况 | Architecture_Note: [DW] 统一项目状态为100%完成，与实际开发进度保持一致 | Memory_Reference: [mcp.memory] 应用文档管理最佳实践，确保信息准确性 | Quality_Check: [DW] 文档状态已统一，移动端导航和图片处理功能已完成并验证}} -->
 
 ### 已完成模块 ✅
 - **基础架构**: Hugo + Alpine.js + Tailwind CSS完整集成

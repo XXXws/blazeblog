@@ -1,17 +1,3 @@
-// {{RIPER-5:
-// Action: Modified
-// Task: #5191c5d9-66d2-44c8-9988-1e8a93e27e90 | Time: 2025-07-13T17:30:00+08:00
-// Reason: JavaScript调试代码清理与生产环境优化 - 移除console语句，优化Fuse.js加载方式
-// Principle: 生产环境代码专业性原则 - 移除调试输出，保持错误处理逻辑，提升性能和可靠性
-// Architecture_Note: [AR] 保持Alpine.js组件结构不变，优化外部依赖加载，确保搜索功能正常
-// Memory_Reference: [mcp.memory] 应用生产环境代码清理最佳实践，确保Lighthouse>95分性能目标
-// Quality_Check: [LD] 调试代码已清理，Fuse.js本地化加载，搜索功能完全正常，无JavaScript错误
-// }}
-
-// BlazeBlog 主JavaScript文件
-// 基于Alpine.js的现代化博客功能
-// 遵循渐进增强原则，确保JavaScript禁用时基础功能可用
-
 import Alpine from 'alpinejs'
 import focus from '@alpinejs/focus'
 import collapse from '@alpinejs/collapse'
