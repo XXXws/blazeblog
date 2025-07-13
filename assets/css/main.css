@@ -1302,13 +1302,44 @@
     margin: 0 auto !important;
     box-sizing: border-box;
   }
-  /* 面包屑横向滚动与字体适配 */
+  /* 面包屑导航省略号效果与横向布局 - 遵循移动端宽度限制 */
   .breadcrumb, nav[aria-label="面包屑导航"] {
-    overflow-x: auto;
+    display: flex;
+    align-items: center;
     white-space: nowrap;
     font-size: 0.95rem;
     padding-bottom: 4px;
-    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    gap: 4px;
+    box-sizing: border-box;
+  }
+
+  /* 面包屑导航链接省略号处理 */
+  .breadcrumb a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 80px;
+    display: inline-block;
+    flex-shrink: 1;
+  }
+
+  /* 面包屑导航当前页面标题 - 确保显示 */
+  .breadcrumb span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 120px;
+    display: inline-block;
+    flex-shrink: 0;
+    min-width: 40px;
+  }
+
+  /* 面包屑导航图标保持固定 */
+  .breadcrumb svg {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
   }
   /* 元信息与标签flex换行与间距 */
   .post-meta, .flex.flex-wrap.items-center {
@@ -1397,7 +1428,7 @@
 @media (max-width: 600px) {
   .main-content,
   article.main-content {
-    max-width: 344px !important;
+    max-width: min(344px, 100vw) !important;
     width: 100%;
     margin-left: auto !important;
     margin-right: auto !important;
@@ -1444,7 +1475,7 @@
 
 /* Hugo Chroma github 主题核心色彩 */
 .chroma { background-color: #f8f8f8; color: #333; }
-.chroma .ln { color: #aaa; }
+
 .chroma .k, .chroma .kc, .chroma .kd, .chroma .kn, .chroma .kp, .chroma .kr, .chroma .kt { color: #d73a49; }
 .chroma .s, .chroma .sb, .chroma .sc, .chroma .sd, .chroma .s2, .chroma .se, .chroma .sh, .chroma .si, .chroma .sx, .chroma .sr, .chroma .s1, .chroma .ss { color: #032f62; }
 .chroma .n, .chroma .nb, .chroma .bp { color: #333; }
@@ -1517,7 +1548,7 @@
 }
 .chroma { background-color: #f8f8f8 !important; color: #333 !important; }
 .dark .chroma { background-color: #232946 !important; color: #fff !important; }
-.chroma .ln { color: #aaa !important; }
+
 .chroma .k, .chroma .kc, .chroma .kd, .chroma .kn, .chroma .kp, .chroma .kr, .chroma .kt { color: #d73a49 !important; }
 .chroma .s, .chroma .sb, .chroma .sc, .chroma .sd, .chroma .s2, .chroma .se, .chroma .sh, .chroma .si, .chroma .sx, .chroma .sr, .chroma .s1, .chroma .ss { color: #032f62 !important; }
 .chroma .n, .chroma .nb, .chroma .bp { color: #333 !important; }
@@ -1665,3 +1696,122 @@
 .dark .chroma .nv {
   color: #fff !important;
 }
+
+/* 移动端内容区宽度补丁，防止撑破容器，确保居中 */
+@media (max-width: 600px) {
+  html, body,
+  .layout-grid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .container-responsive {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    /* 不要设置width/margin */
+  }
+  .main-content,
+  article.main-content,
+  .prose {
+    max-width: min(344px, 100vw) !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+  /* 其余内容区子元素宽度适配保持不变 */
+  .main-content img,
+  .main-content table,
+  .main-content pre,
+  .main-content code,
+  .main-content blockquote,
+  .main-content figure,
+  .main-content iframe,
+  .prose img,
+  .prose table,
+  .prose pre,
+  .prose code,
+  .prose blockquote,
+  .prose figure,
+  .prose iframe {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+    overflow-x: auto !important;
+  }
+  .main-content pre,
+  .prose pre {
+    white-space: pre-wrap !important;
+    word-break: break-all !important;
+  }
+  .main-content table,
+  .prose table {
+    display: block !important;
+    overflow-x: auto !important;
+    border-collapse: collapse !important;
+  }
+  .card,
+  .post-card-compact {
+    max-width: 320px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+    padding: 0 !important;
+  }
+  .post-card-image {
+    height: min(32vw, 120px) !important;
+    min-height: 64px !important;
+    max-height: 120px !important;
+  }
+  .post-card-title {
+    font-size: 1.05rem !important;
+    line-height: 1.3 !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .post-card-summary {
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 0.5rem !important;
+  }
+}
+
+/* Hugo Chroma 代码块基础样式 */
+.chroma {
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+.chroma pre {
+  white-space: pre;
+  overflow-x: auto;
+  padding: 0.75em 1em;
+  font-family: 'Fira Mono', 'Consolas', monospace;
+  font-size: 0.95em;
+}
+@media (max-width: 600px) {
+  .chroma pre {
+    font-size: 0.9em;
+    padding: 0.5em 0.7em;
+  }
+}
+
+/* 让整个代码块区域横向滚动，适配所有屏幕，保证行号和内容对齐 */
+.chroma, .prose pre {
+  overflow-x: auto;
+  width: 100%;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: #bbb #f3f4f6;
+}
+.chroma pre, .prose pre, .chroma .line {
+  white-space: pre;
+}
+

@@ -85,7 +85,7 @@ markup:
       unsafe: true
   highlight:
     style: 'github'      # 亮色高对比度主题
-    lineNos: true
+    lineNos: false       # 禁用代码行号显示
     codeFences: true
     noClasses: false
 
