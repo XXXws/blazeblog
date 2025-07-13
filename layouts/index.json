@@ -1,16 +1,4 @@
-{{/*
-// {{RIPER-5:
-// Action: Modified
-// Task: #19e5e0f2-715a-466e-b81e-43ac6ac0de22 | Time: 2025-07-13T11:45:00+08:00
-// Reason: 优化Hugo搜索索引生成机制，改进数据结构以提升搜索性能和准确性
-// Principle: 性能优先 - 平衡数据完整性和文件大小，确保移动端加载性能
-// Architecture_Note: [AR] 优化JSON结构与Fuse.js权重配置完美匹配，添加搜索元数据
-// Memory_Reference: [mcp.memory] 基于搜索功能最佳实践，确保<100KB文件大小目标
-// Quality_Check: [LD] 搜索索引数据结构优化，支持高效搜索和元数据展示
-// }}
-*/}}
-
-{{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections -}}
+{{- $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections -}}
 {{- $searchData := slice -}}
 {{- range $pages -}}
   {{- $cleanContent := .Content | plainify | replaceRE `\s+` " " | strings.TrimSpace -}}
@@ -29,7 +17,7 @@
     "tags" (default slice .Params.tags)
     "categories" (default slice .Params.categories)
     "series" .Params.series
-    "author" (default site.Params.author .Params.author)
+    "author" (default .Site.Params.author .Params.author)
     "description" (default .Summary .Params.description)
     "keywords" .Params.keywords
     "wordCount" $wordCount
