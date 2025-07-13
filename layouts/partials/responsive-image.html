@@ -1,0 +1,92 @@
+{{/* RIPER-5:
+     Action: Created
+     Task: #9c4e084a-a756-4df2-9ccd-dc6f08926e36 | Time: 2025-07-13T13:45:00+08:00
+     Reason: 创建响应式图片组件，实现现代图片格式和响应式支持
+     Principle: 性能优化原则 - 现代图片格式和响应式图片提升加载性能
+     Architecture_Note: [AR] 响应式图片组件，支持WebP/AVIF格式和多断点
+     Memory_Reference: [mcp.memory] 应用响应式图片最佳实践，确保性能优化
+     Quality_Check: [LD] 完整的响应式图片实现，支持现代格式和fallback
+*/}}
+
+<!-- 响应式图片组件 -->
+{{ $src := .src }}
+{{ $alt := .alt | default "" }}
+{{ $class := .class | default "" }}
+{{ $loading := .loading | default "lazy" }}
+{{ $sizes := .sizes | default "(min-width: 1024px) 1024px, (min-width: 768px) 768px, 100vw" }}
+{{ $widths := .widths | default (slice 320 640 768 1024 1280) }}
+
+{{ $image := "" }}
+{{ $imageResource := "" }}
+
+<!-- 尝试从不同位置获取图片资源 -->
+{{ if resources.Get $src }}
+  {{ $imageResource = resources.Get $src }}
+{{ else if fileExists (printf "static/%s" $src) }}
+  {{ $image = $src | relURL }}
+{{ else }}
+  {{ $image = $src }}
+{{ end }}
+
+{{ if $imageResource }}
+  <!-- 使用Hugo图片处理管道 -->
+  {{ $webpImages := slice }}
+  {{ $avifImages := slice }}
+  {{ $jpegImages := slice }}
+  
+  <!-- 生成不同尺寸的图片 -->
+  {{ range $widths }}
+    {{ $width := . }}
+    {{ $resized := $imageResource.Resize (printf "%dx" $width) }}
+    {{ $webp := $resized.Process "webp" }}
+    {{ $avif := $resized.Process "avif" }}
+    
+    {{ $webpImages = $webpImages | append (printf "%s %dw" $webp.RelPermalink $width) }}
+    {{ $avifImages = $avifImages | append (printf "%s %dw" $avif.RelPermalink $width) }}
+    {{ $jpegImages = $jpegImages | append (printf "%s %dw" $resized.RelPermalink $width) }}
+  {{ end }}
+  
+  <!-- 生成默认图片 -->
+  {{ $defaultImage := $imageResource.Resize "768x" }}
+  
+  <picture class="{{ $class }}">
+    <!-- AVIF格式 (最新) -->
+    {{ if $avifImages }}
+    <source type="image/avif" 
+            srcset="{{ delimit $avifImages ", " }}"
+            sizes="{{ $sizes }}">
+    {{ end }}
+    
+    <!-- WebP格式 (广泛支持) -->
+    {{ if $webpImages }}
+    <source type="image/webp" 
+            srcset="{{ delimit $webpImages ", " }}"
+            sizes="{{ $sizes }}">
+    {{ end }}
+    
+    <!-- JPEG/PNG格式 (fallback) -->
+    <img src="{{ $defaultImage.RelPermalink }}"
+         {{ if $jpegImages }}
+         srcset="{{ delimit $jpegImages ", " }}"
+         sizes="{{ $sizes }}"
+         {{ end }}
+         alt="{{ $alt }}"
+         loading="{{ $loading }}"
+         class="{{ $class }}"
+         {{ if eq $loading "lazy" }}
+         x-data="lazyImage"
+         x-bind:class="{ 'opacity-100': loaded, 'opacity-0': !loaded }"
+         {{ end }}>
+  </picture>
+
+{{ else }}
+  <!-- 静态图片fallback -->
+  <img src="{{ $image }}"
+       alt="{{ $alt }}"
+       loading="{{ $loading }}"
+       class="{{ $class }}"
+       {{ if eq $loading "lazy" }}
+       x-data="lazyImage"
+       x-bind:class="{ 'opacity-100': loaded, 'opacity-0': !loaded }"
+       {{ end }}>
+{{ end }}

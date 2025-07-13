@@ -1,0 +1,79 @@
+{{/* RIPER-5:
+     Action: Created
+     Task: #195b5285-80cd-41ed-96a8-ed0f076ea9ec | Time: 2025-07-13T13:06:00+08:00
+     Reason: 创建社交媒体Meta标签组件，实现Open Graph和Twitter Cards支持
+     Principle: 模块化设计原则 - 独立组件便于维护和复用
+     Architecture_Note: [AR] 社交媒体SEO组件，支持动态内容和默认值回退
+     Memory_Reference: [mcp.memory] 应用社交媒体SEO最佳实践，确保分享效果
+     Quality_Check: [LD] 完整的Open Graph和Twitter Cards实现，支持图片、描述等
+*/}}
+
+<!-- 社交媒体Meta标签组件 - Open Graph + Twitter Cards -->
+{{ $title := .Title }}
+{{ $description := .Description | default .Summary | default .Site.Params.description }}
+{{ $image := "" }}
+{{ $url := .Permalink }}
+
+<!-- 获取文章特色图片或使用默认图片 -->
+{{ if .Params.featured_image }}
+  {{ $image = .Params.featured_image | absURL }}
+{{ else if .Site.Params.seo.defaultImage }}
+  {{ $image = .Site.Params.seo.defaultImage | absURL }}
+{{ end }}
+
+<!-- 处理首页标题 -->
+{{ if .IsHome }}
+  {{ $title = printf "%s - %s" .Site.Title .Site.Params.description }}
+{{ else }}
+  {{ $title = printf "%s - %s" .Title .Site.Title }}
+{{ end }}
+
+<!-- Open Graph Meta标签 -->
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $description | truncate 160 }}">
+<meta property="og:url" content="{{ $url }}">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+<meta property="og:locale" content="{{ .Site.LanguageCode | default "zh_CN" }}">
+
+{{ if $image }}
+<meta property="og:image" content="{{ $image }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ $title }}">
+{{ end }}
+
+<!-- 文章特定的Open Graph标签 -->
+{{ if .IsPage }}
+<meta property="article:author" content="{{ .Params.author | default .Site.Params.author }}">
+<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+{{ if .Lastmod }}
+<meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">
+{{ end }}
+{{ range .Params.tags }}
+<meta property="article:tag" content="{{ . }}">
+{{ end }}
+{{ range .Params.categories }}
+<meta property="article:section" content="{{ . }}">
+{{ end }}
+{{ end }}
+
+<!-- Twitter Cards Meta标签 -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $title }}">
+<meta name="twitter:description" content="{{ $description | truncate 160 }}">
+{{ if .Site.Params.seo.twitterSite }}
+<meta name="twitter:site" content="{{ .Site.Params.seo.twitterSite }}">
+{{ end }}
+{{ if .Site.Params.seo.twitterCreator }}
+<meta name="twitter:creator" content="{{ .Site.Params.seo.twitterCreator }}">
+{{ end }}
+{{ if $image }}
+<meta name="twitter:image" content="{{ $image }}">
+<meta name="twitter:image:alt" content="{{ $title }}">
+{{ end }}
+
+<!-- Facebook App ID -->
+{{ if .Site.Params.seo.facebookAppId }}
+<meta property="fb:app_id" content="{{ .Site.Params.seo.facebookAppId }}">
+{{ end }}

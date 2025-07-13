@@ -1,0 +1,11 @@
+{{/*
+响应式容器组件
+用法: {{ partial "layout/container.html" (dict "content" .Content "class" "additional-classes") }}
+*/}}
+
+{{ $class := .class | default "" }}
+{{ $content := .content }}
+
+<div class="container-responsive {{ $class }}">
+    {{ $content }}
+</div>

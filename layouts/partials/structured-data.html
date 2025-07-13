@@ -1,0 +1,134 @@
+{{/* RIPER-5:
+     Action: Created
+     Task: #195b5285-80cd-41ed-96a8-ed0f076ea9ec | Time: 2025-07-13T13:06:00+08:00
+     Reason: 创建结构化数据组件，实现JSON-LD格式的Schema.org标记
+     Principle: SEO最佳实践 - 结构化数据提升搜索引擎理解和展示效果
+     Architecture_Note: [AR] JSON-LD结构化数据组件，支持网站、文章、面包屑等类型
+     Memory_Reference: [mcp.memory] 应用Schema.org结构化数据最佳实践
+     Quality_Check: [LD] 完整的JSON-LD实现，符合Google结构化数据规范
+*/}}
+
+<!-- 结构化数据组件 - JSON-LD格式 -->
+{{ $structuredData := slice }}
+
+<!-- 网站/组织信息 -->
+{{ if .IsHome }}
+{{ $websiteData := dict
+  "@context" "https://schema.org"
+  "@type" "WebSite"
+  "name" .Site.Title
+  "description" .Site.Params.description
+  "url" .Site.BaseURL
+  "inLanguage" (.Site.LanguageCode | default "zh-CN")
+  "potentialAction" (dict
+    "@type" "SearchAction"
+    "target" (dict
+      "@type" "EntryPoint"
+      "urlTemplate" (printf "%s/search/?q={search_term_string}" .Site.BaseURL)
+    )
+    "query-input" "required name=search_term_string"
+  )
+}}
+
+{{ if .Site.Params.seo.organization }}
+{{ $organizationData := dict
+  "@context" "https://schema.org"
+  "@type" "Organization"
+  "name" .Site.Params.seo.organization.name
+  "url" .Site.Params.seo.organization.url
+  "logo" .Site.Params.seo.organization.logo
+  "sameAs" .Site.Params.seo.organization.sameAs
+}}
+{{ $structuredData = $structuredData | append $organizationData }}
+{{ end }}
+
+{{ $structuredData = $structuredData | append $websiteData }}
+{{ end }}
+
+<!-- 文章页面结构化数据 -->
+{{ if and .IsPage (eq .Section "posts") }}
+{{ $articleData := dict
+  "@context" "https://schema.org"
+  "@type" "BlogPosting"
+  "headline" .Title
+  "description" (.Description | default .Summary)
+  "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")
+  "dateModified" ((.Lastmod | default .Date).Format "2006-01-02T15:04:05Z07:00")
+  "author" (dict
+    "@type" "Person"
+    "name" (.Params.author | default .Site.Params.author)
+  )
+  "publisher" (dict
+    "@type" "Organization"
+    "name" .Site.Title
+    "logo" (dict
+      "@type" "ImageObject"
+      "url" (.Site.Params.seo.logo | default (.Site.Params.seo.defaultImage | absURL))
+    )
+  )
+  "mainEntityOfPage" (dict
+    "@type" "WebPage"
+    "@id" .Permalink
+  )
+  "url" .Permalink
+  "wordCount" .WordCount
+  "keywords" (.Params.tags | default slice)
+}}
+
+<!-- 添加文章图片 -->
+{{ if .Params.featured_image }}
+{{ $articleData = merge $articleData (dict "image" (dict
+  "@type" "ImageObject"
+  "url" (.Params.featured_image | absURL)
+  "width" 1200
+  "height" 630
+)) }}
+{{ end }}
+
+{{ $structuredData = $structuredData | append $articleData }}
+{{ end }}
+
+<!-- 面包屑导航结构化数据 -->
+{{ if not .IsHome }}
+{{ $breadcrumbList := slice }}
+{{ $breadcrumbList = $breadcrumbList | append (dict
+  "@type" "ListItem"
+  "position" 1
+  "name" "首页"
+  "item" .Site.BaseURL
+) }}
+
+{{ if .Section }}
+{{ $sectionURL := printf "%s/%s/" .Site.BaseURL .Section }}
+{{ $breadcrumbList = $breadcrumbList | append (dict
+  "@type" "ListItem"
+  "position" 2
+  "name" (.Section | title)
+  "item" $sectionURL
+) }}
+{{ end }}
+
+{{ if .IsPage }}
+{{ $breadcrumbList = $breadcrumbList | append (dict
+  "@type" "ListItem"
+  "position" (len $breadcrumbList | add 1)
+  "name" .Title
+  "item" .Permalink
+) }}
+{{ end }}
+
+{{ $breadcrumbData := dict
+  "@context" "https://schema.org"
+  "@type" "BreadcrumbList"
+  "itemListElement" $breadcrumbList
+}}
+
+{{ $structuredData = $structuredData | append $breadcrumbData }}
+{{ end }}
+
+<!-- 输出结构化数据 -->
+{{ range $structuredData }}
+<script type="application/ld+json">
+{{ . | jsonify | safeHTML }}
+</script>
+{{ end }}

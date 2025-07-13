@@ -1,0 +1,22 @@
+{{/*
+响应式网格组件
+用法: {{ partial "layout/grid.html" (dict "content" .Content "cols" "responsive" "gap" "24") }}
+*/}}
+
+{{ $cols := .cols | default "responsive" }}
+{{ $gap := .gap | default "24" }}
+{{ $class := .class | default "" }}
+{{ $content := .content }}
+
+{{ $gridClass := "" }}
+{{ if eq $cols "responsive" }}
+    {{ $gridClass = "grid-cols-responsive" }}
+{{ else }}
+    {{ $gridClass = printf "grid-cols-%s" $cols }}
+{{ end }}
+
+{{ $gapClass := printf "grid-%s" $gap }}
+
+<div class="grid {{ $gapClass }} {{ $gridClass }} {{ $class }}">
+    {{ $content }}
+</div>

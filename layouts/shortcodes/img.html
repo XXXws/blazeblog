@@ -1,0 +1,80 @@
+{{/* RIPER-5:
+     Action: Created
+     Task: #9c4e084a-a756-4df2-9ccd-dc6f08926e36 | Time: 2025-07-13T13:45:00+08:00
+     Reason: 创建图片shortcode，便于在内容中使用响应式图片
+     Principle: 易用性原则 - 简化内容创建者的图片使用流程
+     Architecture_Note: [AR] 图片shortcode组件，集成响应式图片功能
+     Memory_Reference: [mcp.memory] 应用Hugo shortcode最佳实践
+     Quality_Check: [LD] 完整的shortcode实现，支持多种参数和配置
+*/}}
+
+<!-- 图片shortcode - 支持响应式图片和现代格式 -->
+{{ $src := .Get "src" | default (.Get 0) }}
+{{ $alt := .Get "alt" | default (.Get 1) | default "" }}
+{{ $caption := .Get "caption" }}
+{{ $class := .Get "class" | default "w-full h-auto" }}
+{{ $loading := .Get "loading" | default "lazy" }}
+{{ $sizes := .Get "sizes" }}
+{{ $widths := .Get "widths" }}
+{{ $style := .Get "style" | default "default" }}
+
+{{ if not $src }}
+  {{ errorf "img shortcode: src parameter is required" }}
+{{ end }}
+
+<!-- 根据样式设置默认类 -->
+{{ $defaultClass := "w-full h-auto rounded-lg" }}
+{{ if eq $style "hero" }}
+  {{ $defaultClass = "w-full h-64 md:h-96 object-cover rounded-xl shadow-medium" }}
+{{ else if eq $style "thumbnail" }}
+  {{ $defaultClass = "w-32 h-32 object-cover rounded-lg" }}
+{{ else if eq $style "avatar" }}
+  {{ $defaultClass = "w-16 h-16 object-cover rounded-full" }}
+{{ else if eq $style "card" }}
+  {{ $defaultClass = "w-full h-48 object-cover rounded-t-lg" }}
+{{ end }}
+
+{{ $finalClass := printf "%s %s" $defaultClass $class }}
+
+<!-- 设置默认sizes -->
+{{ if not $sizes }}
+  {{ if eq $style "hero" }}
+    {{ $sizes = "(min-width: 1280px) 1280px, (min-width: 1024px) 1024px, 100vw" }}
+  {{ else if eq $style "thumbnail" }}
+    {{ $sizes = "128px" }}
+  {{ else if eq $style "avatar" }}
+    {{ $sizes = "64px" }}
+  {{ else }}
+    {{ $sizes = "(min-width: 1024px) 1024px, (min-width: 768px) 768px, 100vw" }}
+  {{ end }}
+{{ end }}
+
+<!-- 设置默认widths -->
+{{ if not $widths }}
+  {{ if eq $style "hero" }}
+    {{ $widths = slice 640 768 1024 1280 1536 }}
+  {{ else if eq $style "thumbnail" }}
+    {{ $widths = slice 128 256 }}
+  {{ else if eq $style "avatar" }}
+    {{ $widths = slice 64 128 }}
+  {{ else }}
+    {{ $widths = slice 320 640 768 1024 }}
+  {{ end }}
+{{ end }}
+
+<figure class="my-6">
+  {{ partial "responsive-image.html" (dict 
+    "src" $src 
+    "alt" $alt 
+    "class" $finalClass 
+    "loading" $loading 
+    "sizes" $sizes 
+    "widths" $widths
+  ) }}
+  
+  {{ if $caption }}
+  <figcaption class="mt-2 text-sm text-gray-600 dark:text-gray-400 text-center italic">
+    {{ $caption | markdownify }}
+  </figcaption>
+  {{ end }}
+</figure>

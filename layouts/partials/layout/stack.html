@@ -1,0 +1,12 @@
+{{/*
+垂直堆叠布局组件
+用法: {{ partial "layout/stack.html" (dict "content" .Content "space" "md") }}
+*/}}
+
+{{ $space := .space | default "md" }}
+{{ $class := .class | default "" }}
+{{ $content := .content }}
+
+<div class="stack stack-{{ $space }} {{ $class }}">
+    {{ $content }}
+</div>

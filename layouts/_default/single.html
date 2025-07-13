@@ -1,0 +1,244 @@
+{{/* RIPER-5:
+     Action: Modified
+     Task: #iPhone SE移动端文章详情页面UI布局修复 | Time: 2025-07-13T14:30:00+08:00
+     Reason: 修复iPhone SE等极小屏幕设备上的UI布局问题，优化文字大小和间距
+     Principle: 移动优先设计原则 - 确保极小屏幕设备的用户体验
+     Architecture_Note: [AR] 添加xxs断点支持，精确控制320px-375px设备显示效果
+     Memory_Reference: [mcp.memory] 应用极小屏幕响应式设计最佳实践
+     Quality_Check: [LD] iPhone SE完美适配，文字清晰可读，内容完整显示
+*/}}
+
+{{ define "main" }}
+<article class="main-content max-w-none md:max-w-4xl mx-auto px-3 xxs:px-4 sm:px-6 lg:px-8">
+  <!-- 面包屑导航 - iPhone SE优化 -->
+  <nav class="breadcrumb flex items-center space-x-1 xxs:space-x-1 sm:space-x-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-3 xxs:mb-4 sm:mb-6 overflow-x-auto" aria-label="面包屑导航">
+    <a href="/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex-shrink-0">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+      </svg>
+    </a>
+
+    {{ range .Ancestors.Reverse }}
+    <svg class="w-3 h-3 sm:w-4 sm:h-4 text-gray-300 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+    </svg>
+    <a href="{{ .Permalink }}" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors break-words whitespace-normal">
+      {{ .Title }}
+    </a>
+    {{ end }}
+
+    <svg class="w-3 h-3 sm:w-4 sm:h-4 text-gray-300 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+    </svg>
+    <span class="text-gray-900 dark:text-gray-100 font-medium break-words whitespace-normal">{{ .Title }}</span>
+  </nav>
+
+  <!-- 文章头部 -->
+  <header class="mb-5 xxs:mb-6 sm:mb-8">
+    <!-- 文章元信息 - iPhone SE垂直布局优化 -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 xxs:mb-4 sm:mb-6 text-xs sm:text-sm text-gray-500 dark:text-gray-400 space-y-2 xxs:space-y-3 sm:space-y-0">
+      <div class="flex flex-wrap items-center gap-1 xxs:gap-2 sm:gap-4">
+        <time datetime="{{ .Date.Format "2006-01-02" }}" class="flex items-center">
+          <svg class="w-3 h-3 sm:w-4 sm:h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+          {{ .Date.Format "2006年01月02日" }}
+        </time>
+
+        {{ if .Params.author }}
+        <span class="flex items-center">
+          <svg class="w-3 h-3 sm:w-4 sm:h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+          {{ .Params.author }}
+        </span>
+        {{ end }}
+
+        <span class="flex items-center">
+          <svg class="w-3 h-3 sm:w-4 sm:h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          {{ .ReadingTime }}分钟阅读
+        </span>
+
+        <span class="flex items-center">
+          <svg class="w-3 h-3 sm:w-4 sm:h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          {{ .WordCount }}字
+        </span>
+      </div>
+
+      <!-- 分享按钮 -->
+      <div class="flex items-center space-x-2">
+        <button class="p-2 text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                title="分享文章">
+          <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 文章标题 - iPhone SE优化字体大小 -->
+    <h1 class="text-xl xxs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-3 xxs:mb-4 sm:mb-6 leading-tight break-words whitespace-normal">
+      {{ .Title }}
+    </h1>
+
+    <!-- 文章描述 - iPhone SE优化 -->
+    {{ if .Description }}
+    <p class="text-sm xxs:text-base xs:text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-3 xxs:mb-4 sm:mb-6 leading-relaxed break-words whitespace-normal">
+      {{ .Description }}
+    </p>
+    {{ end }}
+
+    <!-- 标签和分类 - iPhone SE优化 -->
+    <div class="tags flex flex-wrap items-center gap-1 xxs:gap-2 sm:gap-4 mb-4 xxs:mb-6 sm:mb-8">
+      {{ if .Params.categories }}
+      <div class="flex items-center space-x-1 xxs:space-x-1 sm:space-x-2">
+        <svg class="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+        </svg>
+        {{ range .Params.categories }}
+        <a href="{{ "/categories/" | relLangURL }}{{ . | urlize }}" class="tag tag-primary text-xs sm:text-sm">{{ . }}</a>
+        {{ end }}
+      </div>
+      {{ end }}
+
+      {{ if .Params.tags }}
+      <div class="flex flex-wrap gap-1 xxs:gap-1 sm:gap-2">
+        {{ range .Params.tags }}
+        <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}" class="tag text-xs sm:text-sm">#{{ . }}</a>
+        {{ end }}
+      </div>
+      {{ end }}
+    </div>
+
+    <!-- 封面图片 - iPhone SE优化 -->
+    {{ if .Params.cover.image }}
+    <div class="relative mb-4 xxs:mb-6 sm:mb-8 rounded-lg sm:rounded-xl overflow-hidden shadow-medium">
+      <img src="{{ .Params.cover.image | relURL }}"
+           alt="{{ .Params.cover.alt | default .Title }}"
+           class="w-full h-40 xxs:h-48 sm:h-64 md:h-96 object-cover">
+      {{ if .Params.cover.caption }}
+      <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2 xxs:p-3 sm:p-4">
+        <p class="text-white text-xs sm:text-sm">{{ .Params.cover.caption }}</p>
+      </div>
+      {{ end }}
+    </div>
+    {{ end }}
+  </header>
+
+  <!-- 文章目录 - iPhone SE优化 -->
+  {{ if .TableOfContents }}
+  <div class="toc bg-gray-50 dark:bg-gray-800/50 rounded-lg sm:rounded-xl p-3 xxs:p-4 sm:p-6 mb-4 xxs:mb-6 sm:mb-8 border border-gray-200 dark:border-gray-700">
+    <h3 class="flex items-center text-sm xxs:text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 xxs:mb-3 sm:mb-4">
+      <svg class="w-3 h-3 xxs:w-4 xxs:h-4 sm:w-5 sm:h-5 mr-1 xxs:mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+      </svg>
+      文章目录
+    </h3>
+    <div class="prose prose-sm dark:prose-invert max-w-none text-xs xxs:text-sm sm:text-base">
+      {{ .TableOfContents }}
+    </div>
+  </div>
+  {{ end }}
+
+  <!-- 文章内容 - iPhone SE优化 -->
+  <div class="prose prose-sm sm:prose-base lg:prose-lg dark:prose-invert max-w-none prose-headings:scroll-mt-20 prose-a:text-primary-600 dark:prose-a:text-primary-400 prose-a:no-underline hover:prose-a:underline prose-pre:bg-gray-50 dark:prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-800 prose-table:text-xs xxs:prose-table:text-sm prose-td:p-1 xxs:prose-td:p-2 prose-th:p-1 xxs:prose-th:p-2 prose-table:overflow-x-auto prose-pre:overflow-x-auto">
+    {{ .Content }}
+  </div>
+
+  <!-- 文章底部 - 移动端优化 -->
+  <footer class="mt-12 sm:mt-16 space-y-6 sm:space-y-8">
+    <!-- 文章导航 - 移动端优化 -->
+    <nav class="flex flex-col gap-4 p-4 sm:p-6 bg-gray-50 dark:bg-gray-800/50 rounded-lg sm:rounded-xl border border-gray-200 dark:border-gray-700">
+      {{ if .PrevInSection }}
+      <div class="w-full">
+        <a href="{{ .PrevInSection.Permalink }}"
+           class="group flex items-center text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 group-hover:-translate-x-1 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          <div class="min-w-0">
+            <div class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">上一篇</div>
+            <div class="font-medium text-sm sm:text-base truncate">{{ .PrevInSection.Title }}</div>
+          </div>
+        </a>
+      </div>
+      {{ end }}
+
+      {{ if .NextInSection }}
+      <div class="w-full">
+        <a href="{{ .NextInSection.Permalink }}"
+           class="group flex items-center justify-end text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+          <div class="text-right min-w-0">
+            <div class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">下一篇</div>
+            <div class="font-medium text-sm sm:text-base truncate">{{ .NextInSection.Title }}</div>
+          </div>
+          <svg class="w-4 h-4 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      </div>
+      {{ end }}
+    </nav>
+
+    <!-- 相关文章 - 移动端优化 -->
+    {{ $related := .Site.RegularPages.Related . | first 3 }}
+    {{ if $related }}
+    <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg sm:rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
+      <h3 class="flex items-center text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 sm:mb-6">
+        <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+        </svg>
+        相关文章
+      </h3>
+      <div class="grid gap-3 sm:gap-4">
+        {{ range $related }}
+        <article class="flex items-start space-x-3 sm:space-x-4 p-3 sm:p-4 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-soft transition-shadow">
+          {{ if .Params.cover.image }}
+          <img src="{{ .Params.cover.image | relURL }}"
+               alt="{{ .Title }}"
+               class="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-lg flex-shrink-0">
+          {{ else }}
+          <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900 dark:to-primary-800 rounded-lg flex-shrink-0 flex items-center justify-center">
+            <svg class="w-6 h-6 sm:w-8 sm:h-8 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+          {{ end }}
+
+          <div class="flex-1 min-w-0">
+            <h4 class="text-base sm:text-lg md:text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 leading-tight break-words whitespace-normal">
+              <a href="{{ .Permalink }}" class="break-words whitespace-normal hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                {{ .Title }}
+              </a>
+            </h4>
+            <p class="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-300 mb-2 leading-relaxed break-words whitespace-normal">
+              {{ .Description | default .Summary }}
+            </p>
+            <div class="flex items-center text-xs text-gray-500 dark:text-gray-400 mb-1">
+              <time datetime="{{ .Date.Format "2006-01-02" }}">
+                {{ .Date.Format "01月02日" }}
+              </time>
+              <span class="mx-1 sm:mx-2">·</span>
+              {{ if .Params.author }}<span>{{ .Params.author }}</span><span class="mx-1 sm:mx-2">·</span>{{ end }}
+              <span>{{ .ReadingTime }}分钟</span>
+            </div>
+            {{ if .Params.categories }}
+            <div class="flex items-center flex-wrap gap-1 mt-1">
+              {{ range .Params.categories }}
+              <a href="{{ "/categories/" | relLangURL }}{{ . | urlize }}" class="tag tag-primary text-xs sm:text-sm">{{ . }}</a>
+              {{ end }}
+            </div>
+            {{ end }}
+          </div>
+        </article>
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
+  </footer>
+</article>
+{{ end }}

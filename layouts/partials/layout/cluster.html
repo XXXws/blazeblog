@@ -1,0 +1,26 @@
+{{/*
+水平分布布局组件
+用法: {{ partial "layout/cluster.html" (dict "content" .Content "space" "md" "justify" "between") }}
+*/}}
+
+{{ $space := .space | default "md" }}
+{{ $justify := .justify | default "start" }}
+{{ $align := .align | default "center" }}
+{{ $class := .class | default "" }}
+{{ $content := .content }}
+
+{{ $justifyClass := "" }}
+{{ if eq $justify "start" }}{{ $justifyClass = "justify-start" }}{{ end }}
+{{ if eq $justify "center" }}{{ $justifyClass = "justify-center" }}{{ end }}
+{{ if eq $justify "end" }}{{ $justifyClass = "justify-end" }}{{ end }}
+{{ if eq $justify "between" }}{{ $justifyClass = "justify-between" }}{{ end }}
+{{ if eq $justify "around" }}{{ $justifyClass = "justify-around" }}{{ end }}
+
+{{ $alignClass := "" }}
+{{ if eq $align "start" }}{{ $alignClass = "items-start" }}{{ end }}
+{{ if eq $align "center" }}{{ $alignClass = "items-center" }}{{ end }}
+{{ if eq $align "end" }}{{ $alignClass = "items-end" }}{{ end }}
+
+<div class="cluster cluster-{{ $space }} {{ $justifyClass }} {{ $alignClass }} {{ $class }}">
+    {{ $content }}
+</div>

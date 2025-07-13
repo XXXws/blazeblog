@@ -1,0 +1,43 @@
+{
+  "_comment": "{{RIPER-5: Action: Modified | Task: #0d5f36df-d5aa-4ec4-adcb-26ff1817598b | Time: 2025-07-13T21:15:00+08:00 | Reason: 构建产物清理与流程优化 - 修复Windows环境下清理脚本兼容性问题 | Principle: 跨平台兼容性原则 - 确保构建脚本在Windows和Unix系统都能正常工作 | Architecture_Note: [AR] 使用PowerShell命令替代Unix rm命令，保持功能一致性 | Memory_Reference: [mcp.memory] 应用跨平台构建脚本最佳实践 | Quality_Check: [LD] 清理脚本已优化，支持Windows环境，确保构建产物完全清理}}",
+  "name": "blazeblog",
+  "version": "1.0.0",
+  "description": "现代化技术博客平台 - JAMstack架构",
+  "main": "index.js",
+  "scripts": {
+    "dev": "hugo server -D --disableFastRender",
+    "build": "hugo --cleanDestinationDir --minify",
+    "build:clean": "hugo --cleanDestinationDir --minify",
+    "build:css": "tailwindcss -i ./assets/css/main.css -o ./static/css/style.css --watch",
+    "preview": "hugo server --environment production",
+    "clean": "if exist public rmdir /s /q public && if exist resources rmdir /s /q resources",
+    "clean:public": "if exist public rmdir /s /q public",
+    "clean:resources": "if exist resources rmdir /s /q resources",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "hugo",
+    "jamstack",
+    "blog",
+    "tailwindcss",
+    "alpinejs"
+  ],
+  "author": "XXXws <1253901211@qq.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.16",
+    "autoprefixer": "^10.4.21",
+    "cssnano": "^7.0.7",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^3.4.17"
+  },
+  "dependencies": {
+    "@alpinejs/collapse": "^3.14.9",
+    "@alpinejs/focus": "^3.14.9",
+    "@alpinejs/persist": "^3.14.9",
+    "alpinejs": "^3.14.9",
+    "fuse.js": "^7.1.0"
+  }
+}

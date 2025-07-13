@@ -1,0 +1,119 @@
+# {{RIPER-5: Action: Modified | Task: #BlazeBlog-Security-2025-07-13 | Time: 2025-07-13T23:30:00+08:00 | Reason: 安全配置优化 - 更新baseURL为生产环境就绪配置 | Principle: 安全配置原则 - 移除占位符，支持环境变量覆盖 | Architecture_Note: [AR] 支持Vercel自动域名检测和自定义域名 | Memory_Reference: [mcp.memory] 应用Hugo生产环境安全配置最佳实践 | Quality_Check: [LD] baseURL配置安全，支持多环境部署}}
+baseURL: '/'  # 使用相对路径，支持任何域名部署
+languageCode: 'zh-cn'
+title: 'BlazeBlog'
+
+# 分页配置
+pagination:
+  pagerSize: 10
+  path: 'page'
+
+params:
+  author: 'XXXws'
+  description: '现代化技术博客'
+  keywords: ['技术', '博客', 'Hugo', 'JAMstack']
+
+  # 主要内容类型 - 用于搜索索引
+  mainSections: ['posts']
+
+  # SEO优化配置
+  seo:
+    # 网站图标和图片
+    favicon: '/favicon.ico'
+    logo: '/images/logo.png'
+    defaultImage: '/images/default-og.jpg'
+
+    # 社交媒体配置
+    twitterSite: '@blazeblog'
+    twitterCreator: '@XXXws'
+    facebookAppId: ''
+
+    # 网站验证
+    googleSiteVerification: ''
+    bingSiteVerification: ''
+
+    # 结构化数据
+    organization:
+      name: 'BlazeBlog'
+      url: ''  # 将在部署时自动设置为实际域名
+      logo: '/images/logo.png'  # 使用相对路径
+      sameAs:
+        - 'https://github.com/XXXws'  # 更新为实际GitHub用户名
+        - 'https://twitter.com/XXXws'  # 更新为实际Twitter用户名
+
+  # 功能开关
+  features:
+    darkMode: true
+    search: true
+    analytics: true
+
+  # 社交链接
+  social:
+    github: 'https://github.com/XXXws'  # 实际GitHub用户名
+    twitter: 'https://twitter.com/XXXws'  # 实际Twitter用户名（如果有）
+
+# 构建配置
+build:
+  writeStats: true
+  
+# 图片处理
+imaging:
+  resampleFilter: 'CatmullRom'
+  quality: 85
+  anchor: 'smart'
+  # 现代图片格式支持
+  formats: ['webp', 'avif', 'jpg', 'png']
+  # 图片处理配置
+  webp:
+    quality: 85
+    lossless: false
+  avif:
+    quality: 80
+    lossless: false
+  # 响应式图片断点
+  breakpoints:
+    sm: 640
+    md: 768
+    lg: 1024
+    xl: 1280
+    xxl: 1536
+
+# 标记配置
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    style: 'github'      # 亮色高对比度主题
+    lineNos: true
+    codeFences: true
+    noClasses: false
+
+# 菜单配置
+menu:
+  main:
+    - name: "首页"
+      url: "/"
+      weight: 10
+    - name: "文章"
+      url: "/posts/"
+      weight: 20
+    - name: "关于"
+      url: "/about/"
+      weight: 30
+
+# 分类法配置
+taxonomies:
+  tag: "tags"
+  category: "categories"
+  series: "series"
+
+# 输出格式
+outputs:
+  home: ["HTML", "RSS", "JSON"]
+  page: ["HTML"]
+  section: ["HTML", "RSS"]
+
+# 永久链接
+permalinks:
+  posts: "/:year/:month/:slug/"

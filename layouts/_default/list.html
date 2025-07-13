@@ -1,0 +1,220 @@
+{{ define "main" }}
+<div class="max-w-7xl mx-auto">
+  {{/* RIPER-5:
+       Action: Modified
+       Task: #BlazeBlog文章列表页面Header优化 | Time: 2025-07-13T16:00:00+08:00
+       Reason: 优化文章列表页面header，采用PaperMod风格设计，解决重复h1标签问题，提升视觉层次和现代化UI
+       Principle: 遵循BlazeBlog设计系统，使用现有Tailwind CSS类，保持响应式设计和可访问性标准
+       Architecture_Note: [AR] 复用hero组件设计模式，集成渐变背景、装饰元素、玻璃拟态效果
+       Memory_Reference: [mcp.memory] 应用BlazeBlog PaperMod风格设计语言和组件模式
+       Quality_Check: [LD] 语义化HTML结构，WCAG AA可访问性，Hugo模板语法兼容，性能优化
+  */}}
+
+  <!-- 优化后的页面头部 - PaperMod风格 -->
+  <header class="relative py-12 md:py-16 lg:py-20 mb-16 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 overflow-hidden rounded-2xl mx-4 md:mx-8 shadow-soft">
+    <!-- 背景装饰元素 -->
+    <div class="absolute inset-0 opacity-20">
+      <div class="absolute top-8 left-8 w-48 h-48 bg-primary-200 dark:bg-primary-900 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
+      <div class="absolute top-16 right-8 w-64 h-64 bg-purple-200 dark:bg-purple-900 rounded-full mix-blend-multiply filter blur-xl animate-pulse" style="animation-delay: 1s;"></div>
+      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-56 h-56 bg-pink-200 dark:bg-pink-900 rounded-full mix-blend-multiply filter blur-xl animate-pulse" style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- 主要内容 -->
+    <div class="relative container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <!-- 面包屑导航 -->
+        <nav class="flex items-center justify-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mb-6" aria-label="面包屑导航">
+          <a href="/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors focus-visible">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+            </svg>
+            <span class="sr-only">首页</span>
+          </a>
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+          </svg>
+          <span class="text-gray-900 dark:text-gray-100 font-medium">{{ .Title }}</span>
+        </nav>
+
+        <!-- 主标题 -->
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-gray-100 mb-6 leading-tight break-words whitespace-normal">
+          {{ if eq .Title "博客文章" }}
+          <span class="block">博客</span>
+          <span class="block text-transparent bg-clip-text bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 animate-fade-in">
+            文章
+          </span>
+          {{ else }}
+          <span class="block">{{ .Title }}</span>
+          <span class="block text-transparent bg-clip-text bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 animate-fade-in">
+            列表
+          </span>
+          {{ end }}
+        </h1>
+
+        <!-- 副标题描述 -->
+        {{ if .Content }}
+        <div class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed prose-p:mb-0 prose-h1:hidden prose-h2:hidden prose-h3:hidden prose-h4:hidden prose-h5:hidden prose-h6:hidden">
+          {{ .Content }}
+        </div>
+        {{ else }}
+        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+          {{ if eq .Title "博客文章" }}
+          探索技术世界的精彩内容，分享实用的开发经验与深度思考
+          {{ else }}
+          发现更多精彩内容，与我们一起探索知识的海洋
+          {{ end }}
+        </p>
+        {{ end }}
+
+        <!-- 特色标签 -->
+        <div class="flex flex-wrap justify-center gap-3 mb-10">
+          <span class="inline-flex items-center px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300 shadow-soft">
+            <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            技术分享
+          </span>
+          <span class="inline-flex items-center px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300 shadow-soft">
+            <svg class="w-4 h-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            实战经验
+          </span>
+          <span class="inline-flex items-center px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300 shadow-soft">
+            <svg class="w-4 h-4 mr-2 text-purple-500" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+              <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+            </svg>
+            深度思考
+          </span>
+        </div>
+
+        <!-- 统计信息卡片 -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
+          <!-- 文章数量 -->
+          <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-md border border-white/20 dark:border-gray-700/20 rounded-xl p-4 shadow-soft hover:shadow-medium transition-all duration-300">
+            <div class="flex items-center justify-center mb-2">
+              <svg class="w-5 h-5 mr-2 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+              <span class="text-2xl font-bold text-primary-600 dark:text-primary-400">{{ len .Paginator.Pages }}</span>
+            </div>
+            <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">
+              {{ if eq .Title "博客文章" }}技术文章{{ else }}内容条目{{ end }}
+            </div>
+          </div>
+
+          <!-- 当前页面 -->
+          {{ if .Paginator.TotalPages }}
+          <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-md border border-white/20 dark:border-gray-700/20 rounded-xl p-4 shadow-soft hover:shadow-medium transition-all duration-300">
+            <div class="flex items-center justify-center mb-2">
+              <svg class="w-5 h-5 mr-2 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+              </svg>
+              <span class="text-2xl font-bold text-purple-600 dark:text-purple-400">{{ .Paginator.PageNumber }}</span>
+            </div>
+            <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">当前页面</div>
+          </div>
+
+          <!-- 总页数 -->
+          <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-md border border-white/20 dark:border-gray-700/20 rounded-xl p-4 shadow-soft hover:shadow-medium transition-all duration-300">
+            <div class="flex items-center justify-center mb-2">
+              <svg class="w-5 h-5 mr-2 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+              </svg>
+              <span class="text-2xl font-bold text-pink-600 dark:text-pink-400">{{ .Paginator.TotalPages }}</span>
+            </div>
+            <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">总页数</div>
+          </div>
+          {{ else }}
+          <!-- 单页面情况下的占位 -->
+          <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-md border border-white/20 dark:border-gray-700/20 rounded-xl p-4 shadow-soft hover:shadow-medium transition-all duration-300">
+            <div class="flex items-center justify-center mb-2">
+              <svg class="w-5 h-5 mr-2 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">1</span>
+            </div>
+            <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">单页显示</div>
+          </div>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 文章网格 -->
+  <div class="grid gap-4 sm:gap-6 post-grid-responsive">
+    {{ range .Paginator.Pages }}
+      {{ partial "post-card.html" . }}
+    {{ else }}
+      <!-- 空状态 -->
+      <div class="col-span-full text-center py-16">
+        <div class="max-w-md mx-auto">
+          <svg class="mx-auto w-24 h-24 text-gray-300 dark:text-gray-600 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">暂无内容</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">这个分类下还没有文章</p>
+          <a href="/" class="btn btn-primary">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+            </svg>
+            返回首页
+          </a>
+        </div>
+      </div>
+    {{ end }}
+  </div>
+
+  <!-- 分页导航 -->
+  {{ if gt .Paginator.TotalPages 1 }}
+  <nav class="flex items-center justify-between mt-12">
+    <div class="flex-1 flex justify-between sm:hidden">
+      {{ if .Paginator.HasPrev }}
+      <a href="{{ .Paginator.Prev.URL }}" class="btn btn-secondary">上一页</a>
+      {{ end }}
+      {{ if .Paginator.HasNext }}
+      <a href="{{ .Paginator.Next.URL }}" class="btn btn-secondary">下一页</a>
+      {{ end }}
+    </div>
+
+    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-center">
+      <div class="flex items-center space-x-2">
+        {{ if .Paginator.HasPrev }}
+        <a href="{{ .Paginator.Prev.URL }}"
+           class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          上一页
+        </a>
+        {{ end }}
+
+        {{ range .Paginator.Pagers }}
+        {{ if eq . $.Paginator }}
+        <span class="inline-flex items-center px-4 py-2 border border-primary-500 text-sm font-medium rounded-lg text-white bg-primary-600">
+          {{ .PageNumber }}
+        </span>
+        {{ else }}
+        <a href="{{ .URL }}"
+           class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          {{ .PageNumber }}
+        </a>
+        {{ end }}
+        {{ end }}
+
+        {{ if .Paginator.HasNext }}
+        <a href="{{ .Paginator.Next.URL }}"
+           class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          下一页
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+        {{ end }}
+      </div>
+    </div>
+  </nav>
+  {{ end }}
+</div>
+{{ end }}
