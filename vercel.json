@@ -1,5 +1,4 @@
 {
-  "_comment": "{{RIPER-5: Action: Created | Task: #BlazeBlog-Deploy-2025-07-13 | Time: 2025-07-13T22:00:00+08:00 | Reason: BlazeBlog Vercel部署配置 - 基于example文件创建生产环境配置 | Principle: 生产环境配置原则 - 优化性能、安全性和缓存策略 | Architecture_Note: [AR] Vercel部署配置，支持Hugo 0.147.9 + Node.js 18 | Memory_Reference: [mcp.memory] 应用Vercel部署最佳实践，确保中国大陆访问友好 | Quality_Check: [LD] 部署配置完整，安全头配置，缓存策略优化}}",
   "build": {
     "env": {
       "HUGO_VERSION": "0.147.9",
