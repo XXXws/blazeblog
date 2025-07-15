@@ -12,12 +12,9 @@ if (isProduction) {
     try {
         // 使用官方inject方法初始化Analytics
         inject();
-        console.log('✅ Vercel Analytics 已初始化');
     } catch (error) {
-        console.warn('⚠️ Vercel Analytics 初始化失败:', error);
+        // 静默处理初始化错误，避免影响用户体验
     }
-} else {
-    console.log('🔍 Analytics: 开发环境，跳过加载');
 }
 
 // 导出自定义事件跟踪函数供其他模块使用
@@ -29,11 +26,8 @@ export function trackEvent(eventName, properties = {}) {
         try {
             const { track } = require('@vercel/analytics');
             track(eventName, properties);
-            console.log(`📊 Analytics: 跟踪事件 "${eventName}"`, properties);
         } catch (error) {
-            console.warn('⚠️ 事件跟踪失败:', error);
+            // 静默处理跟踪错误，避免影响用户体验
         }
-    } else {
-        console.log(`🔍 Analytics: 开发环境事件 "${eventName}"`, properties);
     }
 }

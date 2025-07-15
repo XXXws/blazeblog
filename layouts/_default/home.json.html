@@ -1,0 +1,39 @@
+{{/*
+  Hugo模板文件 - 生成搜索索引JSON
+  此文件使用Hugo模板语法生成JSON格式的搜索数据
+  生成的文件位于: public/index.json
+*/}}
+{{- $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections -}}
+{{- $searchData := slice -}}
+{{- range $pages -}}
+  {{- $cleanContent := .Content | plainify | replaceRE `\s+` " " | strings.TrimSpace -}}
+  {{- $cleanSummary := .Summary | plainify | replaceRE `\s+` " " | strings.TrimSpace -}}
+  {{- $wordCount := len (split $cleanContent " ") -}}
+  {{- $readingTime := math.Ceil (div (float $wordCount) 200.0) -}}
+
+  {{- $searchItem := dict
+    "id" .File.UniqueID
+    "title" .Title
+    "url" .Permalink
+    "summary" (cond (gt (len $cleanSummary) 0) ($cleanSummary | truncate 180 "...") ($cleanContent | truncate 180 "..."))
+    "content" ($cleanContent | truncate 800 "...")
+    "date" (.Date.Format "2006-01-02")
+    "dateFormatted" (.Date.Format "2006年01月02日")
+    "tags" (default slice .Params.tags)
+    "categories" (default slice .Params.categories)
+    "series" .Params.series
+    "author" (default .Site.Params.author .Params.author)
+    "description" (default .Summary .Params.description)
+    "keywords" .Params.keywords
+    "wordCount" $wordCount
+    "readingTime" $readingTime
+    "featured" (default false .Params.featured)
+    "draft" .Draft
+    "section" .Section
+    "type" .Type
+    "lastmod" (.Lastmod.Format "2006-01-02")
+    "weight" (default 0 .Weight)
+  -}}
+  {{- $searchData = $searchData | append $searchItem -}}
+{{- end -}}
+{{- $searchData | jsonify -}}

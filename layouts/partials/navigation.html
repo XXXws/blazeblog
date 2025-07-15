@@ -34,16 +34,6 @@
       <span x-text="themeIcon" class="text-lg"></span>
     </button>
   </div>
-  
-  <!-- RIPER-5:
-       Action: Removed
-       Task: #移动端导航组件完全移除 | Time: 2025-07-12T23:35:00Z
-       Reason: 用户要求完全移除移动端导航组件，简化代码结构
-       Principle: 代码简化，保持桌面端功能完整性
-       Architecture_Note: [AR] 保持JAMstack架构，移除移动端导航不影响桌面端功能
-       Memory_Reference: [mcp.memory] 移动端导航移除最佳实践
-       Quality_Check: [LD] 确保桌面端导航功能完全保留，Alpine.js其他组件正常工作
-  -->
 
   <!-- 移动端底部导航 -->
   <div x-data="mobileNavigation()" class="md:hidden">

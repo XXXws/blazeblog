@@ -772,17 +772,7 @@
     color: rgb(var(--color-text-link));
   }
 
-  /* RIPER-5:
-     Action: Modified
-     Task: #post-card-summary样式优化实施 | Time: 2025-07-13T15:30:00+08:00
-     Reason: 实施4层渐进式响应式断点策略，解决移动端文章描述被截断问题
-     Principle: 内容驱动设计原则，渐进增强，确保信息完整性与布局美观的平衡
-     Architecture_Note: [AR] 与BlazeBlog现有断点体系(475px/640px/768px/1024px)保持兼容
-     Memory_Reference: [mcp.memory] 响应式设计最佳实践，移动优先原则，文本可读性优化
-     Quality_Check: [LD] 4层断点策略实施完成，CSS语法正确，媒体查询优先级清晰
-  */
-
-  /* 紧凑型卡片摘要 - 4层渐进式响应版本 */
+  /* 紧凑型卡片摘要 - 响应式版本 */
   .post-card-summary {
     @apply text-sm mb-3 leading-relaxed flex-1 break-words whitespace-normal;
     color: rgb(var(--color-text-secondary));
@@ -918,15 +908,7 @@
     @apply dark:bg-primary-900/30 dark:text-primary-300;
   }
 
-  /* RIPER-5:
-     Action: Removed
-     Task: #移动端导航组件完全移除 | Time: 2025-07-12T23:45:00Z
-     Reason: 用户要求完全移除移动端导航组件，清理相关CSS样式
-     Principle: 代码简化，保持桌面端样式和响应式框架完整性
-     Architecture_Note: [AR] 移除移动端优化组件样式，保持JAMstack架构完整
-     Memory_Reference: [mcp.memory] 移动端导航CSS样式移除最佳实践
-     Quality_Check: [LD] 确保桌面端导航样式不受影响，响应式设计框架保持完整
-  */
+
 
 
 
@@ -978,38 +960,26 @@
     line-height: 1.6;
   }
 
+  /* 响应式间距系统 */
+  .space-responsive-xs { margin: 8px; }
+  .space-responsive-sm { margin: 16px; }
+  .space-responsive-md { margin: 24px; }
+
   @media (min-width: 640px) {
     .text-responsive-xs { font-size: 14px; }
     .text-responsive-sm { font-size: 16px; }
     .text-responsive-base { font-size: 18px; }
-  }
-
-  @media (min-width: 1024px) {
-    .text-responsive-xs { font-size: 16px; }
-    .text-responsive-sm { font-size: 18px; }
-    .text-responsive-base { font-size: 20px; }
-  }
-
-  /* 响应式间距系统 */
-  .space-responsive-xs {
-    margin: 8px;
-  }
-
-  .space-responsive-sm {
-    margin: 16px;
-  }
-
-  .space-responsive-md {
-    margin: 24px;
-  }
-
-  @media (min-width: 640px) {
+    
     .space-responsive-xs { margin: 12px; }
     .space-responsive-sm { margin: 20px; }
     .space-responsive-md { margin: 32px; }
   }
 
   @media (min-width: 1024px) {
+    .text-responsive-xs { font-size: 16px; }
+    .text-responsive-sm { font-size: 18px; }
+    .text-responsive-base { font-size: 20px; }
+    
     .space-responsive-xs { margin: 16px; }
     .space-responsive-sm { margin: 24px; }
     .space-responsive-md { margin: 40px; }
@@ -1203,55 +1173,7 @@
   }
 }
 
-/* {{RIPER-5:
-// Action: Added
-// Task: #9a11d63a | Time: 2025-07-12T13:45:00Z
-// Reason: 实现响应式布局系统，包含CSS Grid主布局、8px网格系统、Flexbox组件、移动端优化
-// Principle: 移动优先设计原则，渐进增强，可访问性WCAG AA标准
-// Architecture_Note: [AR] 模块化CSS架构，分离布局逻辑，保持PaperMod风格一致性
-// Memory_Reference: [mcp.memory] 用户偏好移动优先设计、8px网格系统、WCAG AA标准
-// Quality_Check: [LD] 响应式测试通过，移动端体验优秀，可访问性增强
-// }} */
 
-/* {{RIPER-5:
-// Action: Added
-// Task: #文章卡片优化 | Time: 2025-07-12T14:45:00Z
-// Reason: 优化文章卡片布局和尺寸设计，实现紧凑型多卡片展示
-// Principle: 移动优先设计，信息完整性，触摸友好交互
-// Architecture_Note: [AR] 创建专用post-grid-responsive网格系统，紧凑型卡片组件
-// Memory_Reference: [mcp.memory] 用户要求桌面端3-4列，平板端2-3列，移动端1-2列布局
-// Quality_Check: [LD] 响应式布局测试通过，卡片信息展示完整，PaperMod风格保持一致
-// }} */
-
-/* {{RIPER-5:
-// Action: Modified
-// Task: #CSS性能优化 | Time: 2025-07-12T16:30:00Z
-// Reason: 扩展CSS变量系统替代大量dark:前缀类，添加CSS containment和will-change属性优化性能
-// Principle: 性能优先原则，减少样式重计算复杂度，保持视觉效果一致性
-// Architecture_Note: [AR] 实现theme-container和theme-transition类，扩展CSS变量覆盖高频使用场景
-// Memory_Reference: [mcp.memory] 用户要求样式重计算时间减少30-40%，保持JAMstack架构
-// Quality_Check: [LD] CSS变量系统扩展完成，性能优化属性添加，视觉效果保持一致
-// }} */
-
-/* {{RIPER-5:
-// Action: Modified
-// Task: #深度CSS性能优化 | Time: 2025-07-12T17:15:00Z
-// Reason: 解决全局CSS变量+根节点.dark类导致全页面样式重计算问题，实施分区域containment优化
-// Principle: 分区域性能优化，减少重排范围，精简CSS变量使用，保持Tailwind兼容性
-// Architecture_Note: [AR] 实现main-content-zone、nav-zone、sidebar-zone、footer-zone分区containment，GPU加速优化
-// Memory_Reference: [mcp.memory] 用户Performance分析显示"Recalculate style"耗时421.2ms，需要深度优化
-// Quality_Check: [LD] 分区域containment实现，静态颜色优化，isolation和GPU加速添加，预期性能提升70%+
-// }} */
-
-/* {{RIPER-5:
-// Action: Modified
-// Task: #主题切换性能优化-优先级1 | Time: 2025-07-12T18:00:00Z
-// Reason: 移除全局过渡动画选择器，这是导致344ms样式重计算的主要性能杀手
-// Principle: 精确选择器替代全局选择器，减少样式重计算范围，提升主题切换性能62%
-// Architecture_Note: [AR] 从全局*选择器改为精确组件选择器，避免影响页面所有元素
-// Memory_Reference: [mcp.memory] Performance分析显示全局过渡动画是最大瓶颈，预期改善至200ms
-// Quality_Check: [LD] 移除性能杀手，添加精确过渡选择器，保持视觉效果一致性
-// }} */
 
 /* 精确过渡动画 - 性能优化版本 */
 .theme-transition,
@@ -1266,15 +1188,7 @@
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
-/* RIPER-5:
-   Action: Removed
-   Task: #移动端导航组件完全移除 | Time: 2025-07-12T23:50:00Z
-   Reason: 用户要求完全移除移动端导航组件，清理相关注释和文档
-   Principle: 代码简化，移除不再需要的移动端导航相关注释
-   Architecture_Note: [AR] 清理移动端导航相关的所有注释和文档
-   Memory_Reference: [mcp.memory] 移动端导航完全移除后的代码清理
-   Quality_Check: [LD] 确保代码注释与实际功能保持一致
-*/
+
 
 /* 滚动条样式 */
 ::-webkit-scrollbar {

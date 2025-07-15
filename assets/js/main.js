@@ -76,17 +76,7 @@ Alpine.store('app', {
     }))
   },
 
-  // {{RIPER-5:
-  // Action: Modified
-  // Task: #主题切换性能优化-优先级1 | Time: 2025-07-12T18:00:00Z
-  // Reason: 移除50ms防抖延迟，简化主题切换逻辑，减少脚本执行时间从184.4ms到80ms
-  // Principle: 直接执行模式，保持requestAnimationFrame优化，避免不必要的调度开销
-  // Architecture_Note: [AR] 简化Alpine.js响应式系统负担，保持状态管理逻辑完整性
-  // Memory_Reference: [mcp.memory] 防抖机制在Performance测试中增加了脚本执行开销
-  // Quality_Check: [LD] 移除防抖延迟，保持RAF优化，确保状态切换逻辑正确
-  // }}
-
-  // 切换主题 - 性能优化版本（移除防抖）
+  // 切换主题 - 性能优化版本
   toggleTheme() {
     // 直接执行主题切换，无延迟
     if (this.theme.current === 'light') {
@@ -737,16 +727,6 @@ Alpine.data('tableOfContents', () => ({
   }
 }))
 
-// {{RIPER-5:
-// Action: Modified
-// Task: #9c4e084a-a756-4df2-9ccd-dc6f08926e36 | Time: 2025-07-13T13:45:00+08:00
-// Reason: 优化图片懒加载组件，增强性能和用户体验
-// Principle: 性能优化原则 - 智能懒加载提升页面加载性能
-// Architecture_Note: [AR] 增强的图片懒加载组件，支持预加载和错误处理
-// Memory_Reference: [mcp.memory] 应用图片懒加载最佳实践
-// Quality_Check: [LD] 完整的懒加载实现，包含性能优化和错误处理
-// }}
-
 // 图片懒加载组件
 Alpine.data('lazyImage', () => ({
   loaded: false,
@@ -844,17 +824,16 @@ if (typeof window !== 'undefined') {
   document.documentElement.classList.add('js-enabled')
   document.documentElement.classList.remove('no-js')
 
-  // 性能监控 - 生产环境静默收集
+  // 性能监控 - 预留接口
   if ('performance' in window) {
     window.addEventListener('load', () => {
       const perfData = performance.getEntriesByType('navigation')[0]
-      // 性能数据收集，可用于后续分析但不输出到控制台
       const performanceMetrics = {
         domContentLoaded: perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
         loadComplete: perfData.loadEventEnd - perfData.loadEventStart,
         totalTime: perfData.loadEventEnd - perfData.fetchStart
       }
-      // 可在此处添加性能数据上报逻辑
+      // 性能数据上报逻辑可在此处实现
     })
   }
 }
